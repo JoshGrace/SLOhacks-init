@@ -1,9 +1,18 @@
 #include <Wire.h>
 #include <SoftwareSerial.h>
-#include <Servo.h>
+#include <CheapStepper.h>
 
 #define DOOR_UNLOCK_PIN 1
-#define DOOR_SERVO_PIN 3
+
+#define IN1 8
+#define IN2 9
+#define IN3 10
+#define IN4 11
+
+CheapStepper doorStepper (IN1, IN2, IN3, IN4);
+
+bool isClockwise = true;
+
 
 void setup () {
 	pinMode(DOOR_UNLOCK_PIN, OUTPUT);
