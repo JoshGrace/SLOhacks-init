@@ -17,6 +17,10 @@
 
 CheapStepper doorStepper (IN1, IN2, IN3, IN4);
 
+//0 = locked
+//1 = unlocked
+bool lockState = 0;
+
 void setup () {
 	pinMode(DOOR_UNLOCK_PIN, OUTPUT);
 
@@ -51,10 +55,15 @@ void receiveHandler(int a) {
 //clockwise = lock
 //CCW = unlock
 void moveLock(bool toLock) {
-	for (int i = 0; i < 1024; i++) {
-		doorStepper.step(toLock);
-		Serial.println((String)doorStepper.getStepsLeft());
+	if (toLock != lockState) {
+		for (int i = 0; i < 1024; i++) {
+			doorStepper.step(toLock);
+			Serial.println((String)doorStepper.getStepsLeft());
+		}
+
+		lockState = toLock;
 	}
+	
 }
 
 void fire(int numOfDarts) {
