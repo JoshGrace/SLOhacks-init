@@ -11,9 +11,6 @@
 
 CheapStepper doorStepper (IN1, IN2, IN3, IN4);
 
-bool isClockwise = true;
-
-
 void setup () {
 	pinMode(DOOR_UNLOCK_PIN, OUTPUT);
 
@@ -22,6 +19,8 @@ void setup () {
 	//join i2c bus with ardress 8
 	Wire.begin(8);
 	Wire.onReceive(receiveHandler);
+
+	// doorStepper.setRpm(16);
 
 }
 
@@ -37,7 +36,14 @@ void receiveHandler(int a) {
 	Serial.println(event);
 }
 
-void unlockDoor() {
-
+//function to unlock or lock door
+//stepper rotates 90 deg upon lock/unlock
+//toLock = direction as well
+//clockwise = lock
+//CCW = unlock
+void doorAction(bool toLock) {
+	for (int i = 0; i < 1024; i++) {
+		doorStepper.step(toLock);
+	}
 }
 
