@@ -9,6 +9,9 @@
 #define IN3 10
 #define IN4 11
 
+#define PUSHER_PIN 5
+#define FLYWHEELS_PIN 5
+
 CheapStepper doorStepper (IN1, IN2, IN3, IN4);
 
 void setup () {
@@ -20,6 +23,8 @@ void setup () {
 	Wire.begin(8);
 	Wire.onReceive(receiveHandler);
 
+	pinMode(PUSHER_PIN, OUTPUT);
+	pinMode(FLYWHEELS_PIN, OUTPUT);
 }
 
 void loop() {
