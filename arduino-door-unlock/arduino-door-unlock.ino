@@ -34,7 +34,7 @@ void setup () {
 }
 
 void loop() {
-	
+
 }
 
 //event is int received from RPI
@@ -57,11 +57,11 @@ void moveLock(bool toLock) {
 	}
 }
 
-void fireOneDart() {
+void fire(int numOfDarts) {
 	digitalWrite(FLYWHEELS_PIN, HIGH);
 	delay(FLYWHEEL_ACCEL_TIME);
 	digitalWrite(PUSHER_PIN, HIGH);
-	delay(ONE_DART_TIME);
+	delay(ONE_DART_TIME * numOfDarts);
 
 	digitalWrite(PUSHER_PIN, LOW);
 	digitalWrite(FLYWHEELS_PIN, LOW);	
