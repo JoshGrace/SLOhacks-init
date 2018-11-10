@@ -23,7 +23,7 @@ void setup () {
 }
 
 void loop() {
-	doorAction(true);
+	moveLock(true);
 
 	delay(1000);
 }
@@ -41,7 +41,7 @@ void receiveHandler(int a) {
 //toLock = direction as well
 //clockwise = lock
 //CCW = unlock
-void doorAction(bool toLock) {
+void moveLock(bool toLock) {
 	for (int i = 0; i < 1024; i++) {
 		doorStepper.step(toLock);
 		Serial.println((String)doorStepper.getStepsLeft());
