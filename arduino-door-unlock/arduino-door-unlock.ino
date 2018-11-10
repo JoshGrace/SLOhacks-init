@@ -23,7 +23,10 @@ void setup () {
 }
 
 void loop() {
-	
+	doorServo.write(45);
+	delay(1000);
+	doorServo.write(90);
+	delay(1000);
 }
 
 //event is int received from RPI
