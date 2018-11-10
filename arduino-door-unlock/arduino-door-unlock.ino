@@ -5,10 +5,6 @@
 #define DOOR_UNLOCK_PIN 1
 #define DOOR_SERVO_PIN 3
 
-Servo doorServo;
-
-int servoAngle = 0;
-
 void setup () {
 	pinMode(DOOR_UNLOCK_PIN, OUTPUT);
 
@@ -18,15 +14,10 @@ void setup () {
 	Wire.begin(8);
 	Wire.onReceive(receiveHandler);
 
-	//Servo setup
-	doorServo.attach(DOOR_SERVO_PIN);
 }
 
 void loop() {
-	doorServo.write(45);
-	delay(1000);
-	doorServo.write(90);
-	delay(1000);
+	
 }
 
 //event is int received from RPI
