@@ -34,15 +34,7 @@ void setup () {
 }
 
 void loop() {
-	digitalWrite(FLYWHEELS_PIN, HIGH);
-	delay(FLYWHEEL_ACCEL_TIME);
-	digitalWrite(PUSHER_PIN, HIGH);
-	delay(ONE_DART_TIME);
-
-	digitalWrite(PUSHER_PIN, LOW);
-	digitalWrite(FLYWHEELS_PIN, LOW);	
-
-	delay(10000);
+	
 }
 
 //event is int received from RPI
@@ -65,3 +57,12 @@ void moveLock(bool toLock) {
 	}
 }
 
+void fireOneDart() {
+	digitalWrite(FLYWHEELS_PIN, HIGH);
+	delay(FLYWHEEL_ACCEL_TIME);
+	digitalWrite(PUSHER_PIN, HIGH);
+	delay(ONE_DART_TIME);
+
+	digitalWrite(PUSHER_PIN, LOW);
+	digitalWrite(FLYWHEELS_PIN, LOW);	
+}
