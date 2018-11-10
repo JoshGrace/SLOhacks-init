@@ -38,7 +38,10 @@ void setup () {
 }
 
 void loop() {
-
+	if(Serial.available() > 0) {
+       int d = Serial.read();
+       Serial.write(d);
+    }
 }
 
 //event is int received from RPI
