@@ -9,8 +9,11 @@
 #define IN3 10
 #define IN4 11
 
-#define PUSHER_PIN 5
+#define PUSHER_PIN 3
 #define FLYWHEELS_PIN 5
+
+#define FLYWHEEL_ACCEL_TIME 100
+#define ONE_DART_TIME 100
 
 CheapStepper doorStepper (IN1, IN2, IN3, IN4);
 
@@ -25,12 +28,21 @@ void setup () {
 
 	pinMode(PUSHER_PIN, OUTPUT);
 	pinMode(FLYWHEELS_PIN, OUTPUT);
+
+	digitalWrite(PUSHER_PIN, LOW);
+	digitalWrite(FLYWHEELS_PIN, LOW);
 }
 
 void loop() {
-	moveLock(true);
+	digitalWrite(FLYWHEELS_PIN, HIGH);
+	delay(FLYWHEEL_ACCEL_TIME);
+	digitalWrite(PUSHER_PIN, HIGH);
+	delay(ONE_DART_TIME);
 
-	delay(1000);
+	digitalWrite(PUSHER_PIN, LOW);
+	digitalWrite(FLYWHEELS_PIN, LOW);	
+
+	delay(10000);
 }
 
 //event is int received from RPI
