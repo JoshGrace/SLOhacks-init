@@ -20,12 +20,12 @@ void setup () {
 	Wire.begin(8);
 	Wire.onReceive(receiveHandler);
 
-	// doorStepper.setRpm(16);
-
 }
 
 void loop() {
-	
+	doorAction(true);
+
+	delay(1000);
 }
 
 //event is int received from RPI
@@ -44,6 +44,7 @@ void receiveHandler(int a) {
 void doorAction(bool toLock) {
 	for (int i = 0; i < 1024; i++) {
 		doorStepper.step(toLock);
+		Serial.println((String)doorStepper.getStepsLeft());
 	}
 }
 
