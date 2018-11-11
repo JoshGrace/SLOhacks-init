@@ -6,7 +6,7 @@
 #define LOCKED_SERVO_ANGLE 0
 #define UNLOCKED_SERVO_ANGLE 180
 
-#define PUSHER_PIN 13
+#define PUSHER_PIN 3
 #define FLYWHEELS_PIN 5
 
 #define FLYWHEEL_ACCEL_TIME 100
@@ -17,11 +17,12 @@ Servo lockServo;
 //0 = locked
 //1 = unlocked
 bool lockState = 0;
-
-bool shouldFire = 0;
+bool shouldFire = false;
 
 void setup () {
-	Serial.begin(9600);
+	Serial.begin(19200);
+
+	pinMode(13, OUTPUT);
 
 	pinMode(LOCK_UNLOCK_PIN, OUTPUT);
 	lockServo.attach(LOCK_UNLOCK_PIN);
@@ -34,10 +35,6 @@ void setup () {
 }
 
 void loop() {
-	// lockServo.write(0);
-	// delay(2000);
-	// lockServo.write(180);
-	// delay(2000);
 	readSerial();
 }
 
@@ -45,39 +42,47 @@ void readSerial() {
 	//read Serial for commands
 	if(Serial.available() > 0) {
 		//convert ascii val of Serial.read() to char
-       handleSerialReading(Serial.read() - 48);
+       handleSerialReading(Serial.read());
     }
 }
+
+
+//3 is 254
 
 //serialReading in ASCII
 void handleSerialReading(int serialReading) {
 	Serial.println((String)serialReading);
+	moveLock(false);
 
-	//in = 0 means lock
-	//in - 1 means lock
-	if (serialReading <= 1) {
-		moveLock(serialReading);
-		return;
-	}
+
+
+	// if (serialReading > 253) {
+	// 	digitalWrite(13, HIGH);
+	// }
+
+	// //in = 0 means lock
+	// //in - 1 means unlock
+	// if (serialReading <= 1) {
+	// 	moveLock(serialReading);
+	// 	return;
+	// }
 		
-	//fire if anything from serial isn't 1 or 0 and if char changed
-	//and delay
-	
-		// lastFireChar = serialReading;
-		// lastFireTime = millis();
-	if (shouldFire) {
-		fire(); 
-		shouldFire = false;
-	}
+	// //fire if anything from serial isn't 1 or 0 and if char changed
+	// //and delay
+	// fire();
 
-	if (serialReading == 2) {
-		shouldFire = true;
-	}
+	// if (shouldFire) {
+	// 	fire(); 
+	// 	shouldFire = false;
+	// }
 
-	if (serialReading == 3) {
-		shouldFire = false;
-	}
+	// if (serialReading == 2) {
+	// 	shouldFire = true;
+	// }
 
+	// if (serialReading == 3) {
+	// 	shouldFire = false;
+	// }
 }
 
 //function to unlock or lock door
@@ -86,26 +91,26 @@ void handleSerialReading(int serialReading) {
 //clockwise = lock
 //CCW = unlock
 void moveLock(bool toLock) {
-	if (toLock != lockState) {	
+	// if (toLock != lockState) {	
 		//lock	
 		if (toLock) {
 			Serial.println("Locking");
 			lockServo.write(LOCKED_SERVO_ANGLE);
 			lockState = toLock;
-			delay(5000);
-			Serial.flush();
+			delay(100);
+			// Stream.flush();
 			return;
 		}
 
 		//unlock
 		Serial.println("Unlcoking");
 		lockServo.write(UNLOCKED_SERVO_ANGLE);
-		delay(5000);
+		delay(3000);
 		lockServo.write(LOCKED_SERVO_ANGLE);
-		Serial.flush();
+		// Stream.flush();
 
 		lockState = toLock;
-	}
+	// }
 	
 }
 
@@ -123,6 +128,6 @@ void fire() {
 	digitalWrite(PUSHER_PIN, LOW);
 	digitalWrite(FLYWHEELS_PIN, LOW);
 
-	delay(5000);
-	Serial.flush();
+	delay(100);
+	// Serial.flush();
 }
