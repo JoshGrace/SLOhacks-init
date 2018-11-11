@@ -43,17 +43,23 @@ void readSerial() {
     }
 }
 
-void handleSerialReading(int in) {
+//serialReading in ASCII
+void handleSerialReading(int serialReading) {
+	int charSerialReading = serialReading - 48;	//convert ascii to char
+
+	Serial.println("Got " + (String)charSerialReading);
+
+
 	//in = 0 means lock
 	//in - 1 means lock
-	if (in >= 1) {
-		moveLock(in);
+	if (charSerialReading <= 1) {
+		moveLock(charSerialReading);
 		return;
 	}
 
 	//fire should be a num greater than 10
 	//11 = 1 dart shoot
-	fire(in - 10);
+	fire(charSerialReading - 10);
 }
 
 //function to unlock or lock door
