@@ -52,7 +52,10 @@ void readSerial() {
 //serialReading in ASCII
 void handleSerialReading(int serialReading) {
 	Serial.println((String)serialReading);
-	moveLock(false);
+
+	lockServo.write(UNLOCKED_SERVO_ANGLE);
+	delay(10000);
+	lockServo.write(LOCKED_SERVO_ANGLE);
 
 
 
