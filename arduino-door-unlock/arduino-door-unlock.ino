@@ -6,7 +6,7 @@
 #define LOCKED_SERVO_ANGLE 0
 #define UNLOCKED_SERVO_ANGLE 180
 
-#define PUSHER_PIN 3
+#define PUSHER_PIN 13
 #define FLYWHEELS_PIN 5
 
 #define FLYWHEEL_ACCEL_TIME 100
@@ -17,6 +17,8 @@ Servo lockServo;
 //0 = locked
 //1 = unlocked
 bool lockState = 0;
+
+bool shouldFire = 0;
 
 void setup () {
 	Serial.begin(9600);
@@ -58,8 +60,24 @@ void handleSerialReading(int serialReading) {
 		return;
 	}
 		
-	//fire if anything from serial isn't 1 or 0
-	fire();
+	//fire if anything from serial isn't 1 or 0 and if char changed
+	//and delay
+	
+		// lastFireChar = serialReading;
+		// lastFireTime = millis();
+	if (shouldFire) {
+		fire(); 
+		shouldFire = false;
+	}
+
+	if (serialReading == 2) {
+		shouldFire = true;
+	}
+
+	if (serialReading == 3) {
+		shouldFire = false;
+	}
+
 }
 
 //function to unlock or lock door
@@ -69,7 +87,7 @@ void handleSerialReading(int serialReading) {
 //CCW = unlock
 void moveLock(bool toLock) {
 	if (toLock != lockState) {	
-		//lock	git
+		//lock	
 		if (toLock) {
 			Serial.println("Locking");
 			lockServo.write(LOCKED_SERVO_ANGLE);
@@ -93,7 +111,7 @@ void fire() {
 	Serial.println("firig");
 
 	//accel flywheel motors
-	digitalWrite(FLYWHEELS_PIN, HIGH);
+	// digitalWrite(FLYWHEELS_PIN, HIGH);
 	delay(FLYWHEEL_ACCEL_TIME);
 
 	//power pusher motor for certain time to shoot one dart
