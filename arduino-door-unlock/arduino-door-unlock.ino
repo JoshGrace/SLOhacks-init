@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 #include <CheapStepper.h>
 
-#define DOOR_UNLOCK_PIN 1
+#define DOOR_UNLOCK_PIN 2
 
 #define IN1 8
 #define IN2 9
@@ -33,6 +33,10 @@ void setup () {
 }
 
 void loop() {
+	readSerial();
+}
+
+void readSerial() {
 	if(Serial.available() > 0) {
        int d = Serial.read();
        Serial.write(d);
