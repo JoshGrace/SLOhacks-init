@@ -119,5 +119,8 @@ void fire() {
 	delay(ONE_DART_TIME);
 
 	digitalWrite(PUSHER_PIN, LOW);
-	digitalWrite(FLYWHEELS_PIN, LOW);	
+	digitalWrite(FLYWHEELS_PIN, LOW);
+
+	delay(5000);
+	Serial.flush();
 }
