@@ -38,9 +38,17 @@ void loop() {
 
 void readSerial() {
 	if(Serial.available() > 0) {
-       int d = Serial.read();
-       Serial.write(d);
+       handleSerialReading(Serial.read());
     }
+}
+
+void handleSerialReading(int in) {
+	if (in >= 1) {
+		moveLock(in);
+		return;
+	}
+
+	fire(in - 10);
 }
 
 //function to unlock or lock door
