@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <SoftwareSerial.h>
 #include <CheapStepper.h>
 
@@ -26,10 +25,6 @@ void setup () {
 
 	Serial.begin(9600);
 
-	//join i2c bus with ardress 8
-	Wire.begin(8);
-	Wire.onReceive(receiveHandler);
-
 	pinMode(PUSHER_PIN, OUTPUT);
 	pinMode(FLYWHEELS_PIN, OUTPUT);
 
@@ -42,14 +37,6 @@ void loop() {
        int d = Serial.read();
        Serial.write(d);
     }
-}
-
-//event is int received from RPI
-//0 = lock door
-//1 = unlock door
-void receiveHandler(int a) {
-	int event = Wire.read();    // receive byte as an integer
-	Serial.println(event);
 }
 
 //function to unlock or lock door
