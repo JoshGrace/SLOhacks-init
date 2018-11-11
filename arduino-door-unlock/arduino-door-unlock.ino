@@ -18,7 +18,7 @@ Servo lockServo;
 //1 = unlocked
 bool lockState = 0;
 
-int lastFireChar = 0;
+bool shouldFire = 0;
 
 void setup () {
 	Serial.begin(9600);
@@ -60,8 +60,24 @@ void handleSerialReading(int serialReading) {
 		return;
 	}
 		
-	//fire if anything from serial isn't 1 or 0
-	fire();
+	//fire if anything from serial isn't 1 or 0 and if char changed
+	//and delay
+	
+		// lastFireChar = serialReading;
+		// lastFireTime = millis();
+	if (shouldFire) {
+		fire(); 
+		shouldFire = false;
+	}
+
+	if (serialReading == 2) {
+		shouldFire = true;
+	}
+
+	if (serialReading == 3) {
+		shouldFire = false;
+	}
+
 }
 
 //function to unlock or lock door
