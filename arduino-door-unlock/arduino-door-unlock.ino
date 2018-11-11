@@ -37,17 +37,22 @@ void loop() {
 }
 
 void readSerial() {
+	//read Serial for commands
 	if(Serial.available() > 0) {
        handleSerialReading(Serial.read());
     }
 }
 
 void handleSerialReading(int in) {
+	//in = 0 means lock
+	//in - 1 means lock
 	if (in >= 1) {
 		moveLock(in);
 		return;
 	}
 
+	//fire should be a num greater than 10
+	//11 = 1 dart shoot
 	fire(in - 10);
 }
 
@@ -58,6 +63,7 @@ void handleSerialReading(int in) {
 //CCW = unlock
 void moveLock(bool toLock) {
 	if (toLock != lockState) {
+		Serial.println("New lock state " + (String)toLock);
 		for (int i = 0; i < 1024; i++) {
 			doorStepper.step(toLock);
 			Serial.println((String)doorStepper.getStepsLeft());
@@ -69,8 +75,13 @@ void moveLock(bool toLock) {
 }
 
 void fire(int numOfDarts) {
+	Serial.println("Firing " + (String)numOfDarts + " darts!");
+
+	//accel flywheel motors
 	digitalWrite(FLYWHEELS_PIN, HIGH);
 	delay(FLYWHEEL_ACCEL_TIME);
+
+	//power pusher motor for certain time depending on how many darts need to be fired
 	digitalWrite(PUSHER_PIN, HIGH);
 	delay(ONE_DART_TIME * numOfDarts);
 
