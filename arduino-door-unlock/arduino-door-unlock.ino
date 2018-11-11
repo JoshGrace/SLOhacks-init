@@ -92,7 +92,8 @@ void moveLock(bool toLock) {
 			Serial.println("Locking");
 			lockServo.write(LOCKED_SERVO_ANGLE);
 			lockState = toLock;
-			delay(100);
+			delay(5000);
+			Serial.flush();
 			return;
 		}
 
@@ -101,6 +102,7 @@ void moveLock(bool toLock) {
 		lockServo.write(UNLOCKED_SERVO_ANGLE);
 		delay(5000);
 		lockServo.write(LOCKED_SERVO_ANGLE);
+		Serial.flush();
 
 		lockState = toLock;
 	}
